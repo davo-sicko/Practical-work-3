@@ -175,10 +175,7 @@ def main():
                 show_stats()
             case "3":
                 print("Спасибо за игру! До свидания!")
-                print()
                 return
             case _:
                 print("Неверный выбор. Введите 1, 2 или 3")
-
-if __name__ == "__main__":
-    main()
+main()
