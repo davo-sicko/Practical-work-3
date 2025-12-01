@@ -5,7 +5,7 @@ file_path =  "C:/Users/david/OneDrive/Рабочий стол/All courses/2 Cour
 
 def save_result(result, size):
     with open(file_path, "a", encoding="utf-8") as file:
-        message = f"Поле {size}x{size}\nРезультат игры:{result}\n"
+        message = f"Поле {size}x{size}\nРезультат игры: {result}\n"
         file.write(message)
         print(f"Текущий результат был сохранен в файл!")
 
