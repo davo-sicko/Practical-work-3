@@ -1,40 +1,39 @@
 import random
-import os
 
 
-stats = "stats_game.txt"
+file_path =  "C:/Users/david/OneDrive/Рабочий стол/All courses/2 Course/Python (НОВЫЙ)/Practical works/Practical work 3/stats/stats_game.txt"
 
-def save_result(winner, board_size):
-    with open(stats, "a", encoding="utf-8") as f:
-        result = winner if winner else "Ничья"
-        f.write(f"Поле {board_size}x{board_size}\n Исход игры: {result}\n")
+def save_result(result, size):
+    with open(file_path, "a", encoding="utf-8") as file:
+        message = f"Поле {size}x{size}\nРезультат игры:{result}\n"
+        file.write(message)
+        print(f"Текущий результат был сохранен в файл!")
 
 def show_stats():
-    if not os.path.exists(stats):
-        print("Статистика пока пуста")
-        return
     
-    print()
+    print("==================================")
     print("СТАТИСТИКА ИГР")
-    print()
-    
-    with open(stats, "r", encoding="utf-8") as f:
-        games = f.readlines()
-    
-    print(f"Всего игр: {len(games) // 2}")
-    
-    x_count_win = o_count_win = draws = 0
-    for game in games:
-        if "X" in game:
-            x_count_win += 1
-        elif "O" in game:
-            o_count_win += 1
-        elif "Ничья" in game:
-            draws += 1
-    
-    print(f"Побед X: {x_count_win}")
-    print(f"Побед O: {o_count_win}")
-    print(f"Ничьих: {draws}")
+    print("==================================")
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            games = file.readlines() 
+
+        print(f"Всего игр: {len(games) // 2}")
+
+        x_count_win, o_count_win, draws = 0, 0, 0
+        for game in games:
+            if "X" in game:
+                x_count_win += 1
+            elif "O" in game:
+                o_count_win += 1
+            elif "Ничья" in game:
+                draws += 1
+
+        print(f"Победы X: {x_count_win}")
+        print(f"Победы O: {o_count_win}")
+        print(f"Ничьи: {draws}")
+    except FileNotFoundError:
+        print("Файл не найден. Сыграйте хотя бы один раз!")
 
 def board_size():
     while True:
@@ -74,17 +73,18 @@ def game(board, size):
             print(f"Игрок {player} победил!")
             save_result(player, size)
             game_over = True
+            
         elif game_tie(board, size):
             print_board(board, size)
             print("Борьба была жесткая. НИЧЬЯ!")
-            save_result(None, size)
+            save_result("Ничья", size)
             game_over = True
+        
         else:
             if player == 'X':
                 player = 'O'
             else:
                 player = 'X'
-            
             
     
 def check_win(board, player, size):
@@ -142,21 +142,21 @@ def print_board(board, size):
 def play_again():
     while True:
         answer = input("Хотите сыграть еще раз? (да/нет): ").lower()
-        if answer in ['да', 'д', 'yes', 'y']:
+        if answer in ['да', 'Да']:
             return True
-        elif answer in ['нет', 'н', 'no', 'n']:
+        elif answer in ['нет', 'Нет']:
             return False
         else:
-            print("Пожалуйста, введите 'да' или 'нет'")
+            print("Пожалуйста, введите свой ответ")
                         
 def main():
     print("------------------------------------------------------------------------")
     print("Добро пожаловать в игру Крестики-Нолики!")
     print("------------------------------------------------------------------------")
     while True:
-        print("\n1 - Новая игра")
-        print("2 - Показать статистику")
-        print("3 - Выйти")
+        print("1. Новая игра")
+        print("2. Статистика")
+        print("3. Выйти")
         
         choice = input("Выберите действие: ")
 
@@ -178,4 +178,5 @@ def main():
                 return
             case _:
                 print("Неверный выбор. Введите 1, 2 или 3")
+
 main()
